@@ -1,4 +1,4 @@
-= stylesheet_link_tag 'style'
+= stylesheet_link_tag 'style.css', 'marquee.css'
 
 .simple-marquee-container
   .marquee
@@ -79,7 +79,9 @@
                 %span{id: "VOLUME24HOURTO_#{coin}"}
                 %br/
 %script{:src => "https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"}
-= javascript_include_tag 'ccc-streamer-utilities.js', 'stream.js'
+= javascript_include_tag 'ccc-streamer-utilities.js', 'stream.js', 'marquee.js'
 = javascript_tag do
   CCC.currency = '#{@currency}';
   CCC.coins = #{raw @coins};
+
+  $('.marquee-content-items').SimpleMarquee();
