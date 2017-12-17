@@ -1,10 +1,14 @@
 class CoinsController < ApplicationController
   before_action :set_coin, only: [:show, :edit, :update, :destroy]
 
+  CURRENCIES = %w(USD INR EUR GBP BTC LTC ETH)
   # GET /coins
   # GET /coins.json
   def index
-    @coins = Coin.all
+    # @coins = Coin.all
+    @coins = ['BTC', 'ETH', 'LTC', 'BCN'] # Add the same in stream.js
+    @currency =
+      CURRENCIES.include?(params[:currency].to_s.upcase) ? params[:currency].to_s.upcase : 'USD'
   end
 
   # GET /coins/1

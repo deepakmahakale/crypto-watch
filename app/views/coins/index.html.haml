@@ -1,0 +1,85 @@
+= stylesheet_link_tag 'style'
+
+.simple-marquee-container
+  .marquee
+    %ul.marquee-content-items
+      - @coins.each do |coin|
+        %li
+          #{coin}:
+          %span.price{class: "TICKER_PRICE_#{coin}"}
+
+.container
+  = form_tag root_path, method: :get do
+    .row
+      .col-md-offset-10.col-md-2
+        .form-group
+          = select_tag :currency, options_for_select(['USD', 'INR', 'EUR', 'GBP', 'BTC', 'LTC', 'ETH'], @currency), onChange: 'this.form.submit();', class: 'form-control'
+  .row
+    - @coins.each do |coin|
+      .col-md-4.price-boxes
+        .panel-group
+          .panel.panel-default
+            .panel-body
+              %h6
+                %a{:href => "https://www.cryptocompare.com"} Source: CryptoCompare.com
+              %h2.price-display
+                #{coin} - #{@currency}
+                %span.price{id: "PRICE_#{coin}"}
+              %h5
+                24h Change:
+                %span{id: "CHANGE24HOUR_#{coin}"}
+                %span{id: "CHANGE24HOURPCT_#{coin}"}
+                %br/
+              %h5
+                Last Market:
+                %span.exchange{id: "LASTMARKET_#{coin}"}
+                %br/
+              %h5
+                Trade ID:
+                %span{id: "LASTTRADEID_#{coin}"}
+                %br/
+              %h5
+                Open Hour:
+                %span{id: "OPENHOUR_#{coin}"}
+                %br/
+              %h5
+                High Hour:
+                %span{id: "HIGHHOUR_#{coin}"}
+                %br/
+              %h5
+                Low Hour:
+                %span{id: "LOWHOUR_#{coin}"}
+                %br/
+              %h5
+                Open Day:
+                %span{id: "OPEN24HOUR_#{coin}"}
+                %br/
+              %h5
+                High Day:
+                %span{id: "HIGH24HOUR_#{coin}"}
+                %br/
+              %h5
+                Low Day:
+                %span{id: "LOW24HOUR_#{coin}"}
+                %br/
+              %h5
+                Last Trade Volume:
+                %span{id: "LASTVOLUME_#{coin}"}
+                %br/
+              %h5
+                Last Trade Volume To:
+                %span{id: "LASTVOLUMETO_#{coin}"}
+                %br/
+              %h5
+                24h Volume:
+                %span{id: "VOLUME24HOUR_#{coin}"}
+                %br/
+              %h5
+                24h VolumeTo:
+                %span{id: "VOLUME24HOURTO_#{coin}"}
+                %br/
+%script{:src => "https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"}
+= javascript_include_tag 'ccc-streamer-utilities.js', 'stream.js'
+= javascript_tag do
+  CCC.currency = '#{@currency}';
+  CCC.coins = #{raw @coins};
